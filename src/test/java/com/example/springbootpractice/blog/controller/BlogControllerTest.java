@@ -5,7 +5,6 @@ import com.example.springbootpractice.blog.domain.dto.ArticleRequestDTO;
 import com.example.springbootpractice.blog.domain.dto.UpdateArticleRequestDTO;
 import com.example.springbootpractice.blog.domain.entity.Article;
 import com.example.springbootpractice.blog.domain.repository.BlogRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
