@@ -24,4 +24,10 @@ public class Article {
         this.title = title;
         this.content = content;
     }
+
+    // entity에 요청받은 내용으로 수정하기 위한 메소드
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
