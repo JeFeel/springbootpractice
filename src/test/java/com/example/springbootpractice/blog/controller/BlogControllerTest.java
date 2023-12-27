@@ -2,8 +2,10 @@ package com.example.springbootpractice.blog.controller;
 
 
 import com.example.springbootpractice.blog.domain.dto.ArticleRequestDTO;
+import com.example.springbootpractice.blog.domain.dto.UpdateArticleRequestDTO;
 import com.example.springbootpractice.blog.domain.entity.Article;
 import com.example.springbootpractice.blog.domain.repository.BlogRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -135,5 +137,36 @@ class BlogControllerTest {
         //then
         List<Article> articles = blogRepository.findAll();
         assertThat(articles).isEmpty();
+    }
+
+    @Test
+    @DisplayName("updateArticle: 한 게시글의 수정에 성공해야 한다")
+    void updateArticle() throws Exception {
+        //given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article savedArticle = blogRepository.save(Article.builder()
+                .title(title)
+                .content(content)
+                .build());
+
+        // 수정 내용
+        final String newTitle = "newTitle";
+        final String newContent = "newContent";
+
+        UpdateArticleRequestDTO requestDTO = new UpdateArticleRequestDTO(newTitle, newContent);
+
+        //when
+        ResultActions result = mockMvc.perform(put(url, savedArticle.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(requestDTO)));
+        //then
+        result.andExpect(status().isOk());
+
+        Article article = blogRepository.findById(savedArticle.getId()).get();
+        assertThat(article.getTitle()).isEqualTo(newTitle);
+        assertThat(article.getContent()).isEqualTo(newContent);
     }
 }
