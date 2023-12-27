@@ -3,6 +3,7 @@ package com.example.springbootpractice.blog.controller;
 
 import com.example.springbootpractice.blog.domain.dto.ArticleRequestDTO;
 import com.example.springbootpractice.blog.domain.dto.ArticleResponseDTO;
+import com.example.springbootpractice.blog.domain.dto.UpdateArticleRequestDTO;
 import com.example.springbootpractice.blog.domain.entity.Article;
 import com.example.springbootpractice.blog.service.BlogService;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,16 @@ public class BlogController {
     ){
         blogService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    // 게시글 수정
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> update(
+            @PathVariable long id,
+            @RequestBody UpdateArticleRequestDTO requestDTO
+            // RequestBody의 정보가 request에 담겨서 serivce에 넘겨준다
+    ){
+        Article updatedArticle = blogService.update(id, requestDTO);
+        return ResponseEntity.ok().body(updatedArticle); //응답값을 body에 넘겨준다
     }
 }
