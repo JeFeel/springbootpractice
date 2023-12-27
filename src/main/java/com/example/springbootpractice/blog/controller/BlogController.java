@@ -28,6 +28,7 @@ public class BlogController {
                 .body(blogService.save(requestDTO));
     }
 
+    // 게시글 모두 조회
     @GetMapping("/api/articles")
     public ResponseEntity<List<ArticleResponseDTO>> findAllArticles(){
         List<ArticleResponseDTO> articles = blogService.findAll()
@@ -38,11 +39,21 @@ public class BlogController {
         return ResponseEntity.ok().body(articles);
     }
 
+    // 게시글 하나 조회
     @GetMapping("/api/articles/{id}")
     public ResponseEntity<ArticleResponseDTO> findArticle(
             @PathVariable long id
     ){
         Article article = blogService.findById(id);
         return ResponseEntity.ok().body(new ArticleResponseDTO(article));
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(
+            @PathVariable long id
+    ){
+        blogService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
